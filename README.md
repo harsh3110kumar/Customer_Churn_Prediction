@@ -1,34 +1,57 @@
-# Customer Churn Prediction System
+# 📉 Customer Churn Prediction
 
-![Churn Prediction Demo](https://via.placeholder.com/800x400?text=Customer+Churn+Prediction+Demonstration) <!-- Replace with actual screenshot -->
+This project predicts whether a customer is likely to **churn** (i.e., leave a service or subscription) based on their demographic, support, and usage data. It uses a machine learning model served via Flask and features a modern, responsive frontend for input and visual output.
 
-A Flask-based web application that predicts customer churn probability and provides actionable retention recommendations using machine learning.
+---
 
-## Features
+## 🚀 Features
 
-- **Real-time Prediction**: Instant churn probability calculation
-- **Decision Tree Model**: Trained ML model for accurate predictions
-- **Actionable Insights**: Personalized retention recommendations
-- **User Feedback**: Integrated feedback system to improve model
-- **Responsive Design**: Works on desktop and mobile devices
+- Predict churn with probability scores
+- Identify key risk factors for churn
+- Generate actionable recommendations
+- Clean and modern UI with dark theme
+- Real-time inference using Flask backend
 
-## Tech Stack
+---
 
-### Backend
-- Python 3.8+
-- Flask
-- Scikit-learn
-- Pandas
-- NumPy
+## 🧠 Tech Stack
 
 ### Frontend
-- HTML5
-- CSS3
-- JavaScript (Vanilla)
+- HTML5, CSS3 (Dark Mode Styling)
+- JavaScript (Vanilla JS)
 
-### Machine Learning
-- Decision Tree Classifier
-- Feature Scaling
-- Label Encoding
+### Backend
+- Python (Flask)
+- scikit-learn (for ML model)
+- Pandas, NumPy (data processing)
 
-## Installation
+---
+
+## 🔍 Prediction Inputs
+
+| Field                | Description                            |
+|---------------------|----------------------------------------|
+| Age                 | Customer's age                         |
+| Gender              | Male / Female                          |
+| Support Calls       | Number of support calls made           |
+| Payment Delay       | Days since last payment was due        |
+| Total Spend         | Total amount spent by the customer     |
+| Last Interaction    | Days since last customer interaction   |
+
+---
+
+## 🧪 Output
+
+- **Prediction:** `Yes` or `No` for churn
+- **Probability Meter**: Visual meter of churn probability
+- **Risk Factors**: Tags of top contributing reasons
+- **Recommendations**: Customized tips to retain customer
+
+---
+
+## 🖥️ Local Setup
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/PrathamSachan91/Customer_Churn_Prediction.git
+cd customer-churn-prediction
