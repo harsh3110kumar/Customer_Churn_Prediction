@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Churn Prediction</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background-color: #0a0a0a;
+      color: #fff;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    .container {
+      background-color: #121212;
+      padding: 2rem;
+      border-radius: 16px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .back-button {
+      background-color: transparent;
+      color: #ccc;
+      border: 1px solid #444;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .back-button:hover {
+      background-color: #1a1a1a;
+      color: #fff;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      margin-bottom: 2rem;
+    }
+
+    h2 {
+      font-size: 1.2rem;
+      margin: 2rem 0 1rem;
+      color: #aaa;
+      border-bottom: 1px solid #2a2a2a;
+      padding-bottom: 0.5rem;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .form-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .form-group {
+      flex: 1 1 45%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      font-size: 0.9rem;
+      color: #aaa;
+      margin-bottom: 0.4rem;
+    }
+
+    input, select {
+      background-color: #1f1f1f;
+      border: 1px solid #333;
+      padding: 0.9rem;
+      font-size: 0.95rem;
+      color: #fff;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    input:focus, select:focus {
+      border-color: #555;
+      outline: none;
+    }
+
+    .button {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+    }
+
+    button {
+      padding: 0.9rem 1.2rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button[type="submit"] {
+      background-color: #0066ff;
+      color: #fff;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #0051cc;
+    }
+
+    button[type="reset"] {
+      background-color: #333;
+      color: #ccc;
+    }
+
+    button[type="reset"]:hover {
+      background-color: #444;
+    }
+
+    .result-card {
+      background-color: #1f1f1f;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .prediction-banner {
+      font-size: 1.2rem;
+      font-weight: 600;
+      padding: 1rem;
+      border-radius: 8px;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .churn-yes {
+      background-color: #4a1c1c;
+      color: #ff6b6b;
+    }
+
+    .churn-no {
+      background-color: #1c3a1c;
+      color: #6bff6b;
+    }
+
+    .probability-meter {
+      height: 20px;
+      background: linear-gradient(90deg, #6bff6b 0%, #ff6b6b 100%);
+      border-radius: 10px;
+      margin: 1rem 0;
+      position: relative;
+    }
+
+    .probability-indicator {
+      position: absolute;
+      top: -25px;
+      transform: translateX(-50%);
+      font-weight: 600;
+    }
+
+    .risk-factors {
+      margin: 1.5rem 0;
+    }
+
+    .risk-factor {
+      display: inline-block;
+      background-color: #4a1c1c;
+      color: #ff9e9e;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .recommendations {
+      margin-top: 2rem;
+    }
+
+    .recommendation {
+      background-color: #2a2a2a;
+      border-left: 4px solid #0066ff;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .recommendation h4 {
+      color: #0066ff;
+      margin-bottom: 0.5rem;
+    }
+
+    .recommendation p {
+      color: #ccc;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .rationale {
+      font-style: italic;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button class="back-button" onclick="history.back()">← Back</button>
+    <h1>Customer Churn Prediction</h1>
+    <form id="predictionForm">
+      <h2>Personal Info</h2>
+      <div class="form-section">
+        <div class="form-group">
+          <label for="Age">Age:</label>
+          <input type="number" id="Age" name="Age" required>
+        </div>
+        <div class="form-group">
+          <label for="Gender">Gender:</label>
+          <select id="Gender" name="Gender" required>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
+        </div>
+      </div>
+
+      <h2>Usage & Payment Info</h2>
+      <div class="form-section">
+        <div class="form-group">
+          <label for="SupportCalls">Support Calls:</label>
+          <input type="number" id="SupportCalls" name="Support Calls" required>
+        </div>
+        <div class="form-group">
+          <label for="PaymentDelay">Payment Delay (days):</label>
+          <input type="number" id="PaymentDelay" name="Payment Delay" required>
+        </div>
+        <div class="form-group">
+          <label for="TotalSpend">Total Spend ($):</label>
+          <input type="number" id="TotalSpend" name="Total Spend" step="0.01" required>
+        </div>
+        <div class="form-group">
+          <label for="LastInteraction">Last Interaction (days ago):</label>
+          <input type="number" id="LastInteraction" name="Last Interaction" required>
+        </div>
+      </div>
+
+      <div class="button">
+        <button type="submit">Predict Churn</button>
+        <button type="reset">Reset Form</button>
+      </div>
+    </form>
+
+    <div class="result-card" id="result" style="display: none;">
+      <div id="predictionBanner" class="prediction-banner"></div>
+
+      <div id="probabilityDisplay">
+        <div>Churn Probability:</div>
+        <div class="probability-meter">
+          <div class="probability-indicator" id="probabilityIndicator"></div>
+        </div>
+      </div>
+
+      <div class="risk-factors" id="riskFactors"></div>
+
+      <div class="recommendations" id="recommendations">
+        <h3>Recommended Retention Actions</h3>
+        <div id="recommendationsList"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('predictionForm').addEventListener('submit', async function (event) {
+      event.preventDefault();
+
+      const formData = {
+        Age: parseInt(document.getElementById('Age').value),
+        Gender: document.getElementById('Gender').value,
+        "Support Calls": parseInt(document.getElementById('SupportCalls').value),
+        "Payment Delay": parseInt(document.getElementById('PaymentDelay').value),
+        "Total Spend": parseFloat(document.getElementById('TotalSpend').value),
+        "Last Interaction": parseInt(document.getElementById('LastInteraction').value)
+      };
+
+      try {
+        const response = await fetch('/predict', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formData)
+        });
+
+        const result = await response.json();
+        if (result.error) {
+          alert(`Error: ${result.error}`);
+          return;
+        }
+
+        const resultDiv = document.getElementById('result');
+        resultDiv.style.display = 'block';
+
+        const banner = document.getElementById('predictionBanner');
+        if (result.prediction === 'Yes') {
+          banner.textContent = '⚠️ Predicted Churn: YES (High Risk)';
+          banner.className = 'prediction-banner churn-yes';
+        } else {
+          banner.textContent = '✓ Predicted Churn: NO (Low Risk)';
+          banner.className = 'prediction-banner churn-no';
+        }
+
+        const probPercent = parseFloat(result.probability.replace('%', ''));
+        const indicator = document.getElementById('probabilityIndicator');
+        indicator.textContent = result.probability;
+        indicator.style.left = `${probPercent}%`;
+
+        const riskFactorsDiv = document.getElementById('riskFactors');
+        if (result.risk_factors && result.risk_factors.length > 0) {
+          riskFactorsDiv.innerHTML = '<h3>Key Risk Factors:</h3>';
+          result.risk_factors.forEach(factor => {
+            const span = document.createElement('span');
+            span.className = 'risk-factor';
+            span.textContent = factor;
+            riskFactorsDiv.appendChild(span);
+          });
+        } else {
+          riskFactorsDiv.innerHTML = '<p>No significant risk factors identified</p>';
+        }
+
+        const recList = document.getElementById('recommendationsList');
+        recList.innerHTML = '';
+
+        if (result.recommendations.recommendations.length > 0) {
+          result.recommendations.recommendations.forEach(rec => {
+            const div = document.createElement('div');
+            div.className = 'recommendation';
+            div.innerHTML = `
+              <h4>${rec.feature}</h4>
+              <p>${rec.description}</p>
+              <p class="rationale">${rec.rationale}</p>
+            `;
+            recList.appendChild(div);
+          });
+        } else {
+          recList.innerHTML = '<p>No specific recommendations needed at this time.</p>';
+        }
+
+      } catch (error) {
+        alert(`Error: ${error.message}`);
+      }
+    });
+  </script>
+</body>
+</html>

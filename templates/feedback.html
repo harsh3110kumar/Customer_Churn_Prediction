@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback - Customer Churn Prediction</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: #0a0a0a;
+            color: #fff;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            background-color: #121212;
+            padding: 2rem;
+            border-radius: 16px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            font-size: 1.2rem;
+            margin: 1.5rem 0 1rem;
+            color: #aaa;
+            border-bottom: 1px solid #2a2a2a;
+            padding-bottom: 0.5rem;
+        }
+
+        .feedback-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 0.9rem;
+            color: #aaa;
+            margin-bottom: 0.5rem;
+        }
+
+        input, select, textarea {
+            background-color: #1f1f1f;
+            border: 1px solid #333;
+            padding: 0.9rem;
+            font-size: 0.95rem;
+            color: #fff;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #555;
+            outline: none;
+        }
+
+        .rating-container {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .rating-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .rating-option input {
+            width: auto;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        button {
+            padding: 0.9rem 1.5rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        button[type="submit"] {
+            background-color: #0066ff;
+            color: #fff;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0051cc;
+        }
+
+        button[type="reset"] {
+            background-color: #333;
+            color: #ccc;
+        }
+
+        button[type="reset"]:hover {
+            background-color: #444;
+        }
+
+        .success-message {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: #1c3a1c;
+            border-radius: 8px;
+            text-align: center;
+            display: none;
+        }
+
+        .prediction-details {
+            background-color: #1f1f1f;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .detail-row {
+            display: flex;
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            width: 180px;
+            color: #aaa;
+        }
+
+        .detail-value {
+            flex: 1;
+        }
+
+        .churn-yes {
+            color: #ff6b6b;
+        }
+
+        .churn-no {
+            color: #6bff6b;
+        }
+
+        .back-button {
+            background-color: transparent;
+            color: #ccc;
+            border: 1px solid #333;
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 1.5rem;
+            transition: 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #1a1a1a;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="back-button" onclick="history.back()">← Back</button>
+
+        <h1>Prediction Feedback</h1>
+        
+        <div class="prediction-details" id="predictionDetails">
+            <h2>Your Prediction Results</h2>
+            <div class="detail-row">
+                <div class="detail-label">Prediction:</div>
+                <div class="detail-value" id="detailPrediction"></div>
+            </div>
+            <div class="detail-row">
+                <div class="detail-label">Probability:</div>
+                <div class="detail-value" id="detailProbability"></div>
+            </div>
+            <div class="detail-row">
+                <div class="detail-label">Key Risk Factors:</div>
+                <div class="detail-value" id="detailRiskFactors"></div>
+            </div>
+        </div>
+
+        <form class="feedback-form" id="feedbackForm">
+            <h2>Help Us Improve</h2>
+            
+            <div class="form-group">
+                <label for="feedbackAccuracy">How accurate was this prediction?</label>
+                <div class="rating-container">
+                    <label class="rating-option">
+                        <input type="radio" name="accuracy" value="5" required> 5 - Very accurate
+                    </label>
+                    <label class="rating-option">
+                        <input type="radio" name="accuracy" value="4"> 4
+                    </label>
+                    <label class="rating-option">
+                        <input type="radio" name="accuracy" value="3"> 3 - Neutral
+                    </label>
+                    <label class="rating-option">
+                        <input type="radio" name="accuracy" value="2"> 2
+                    </label>
+                    <label class="rating-option">
+                        <input type="radio" name="accuracy" value="1"> 1 - Not accurate
+                    </label>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="feedbackUseful">Were the recommendations useful?</label>
+                <select id="feedbackUseful" name="usefulness" required>
+                    <option value="">Select an option</option>
+                    <option value="very_useful">Very useful</option>
+                    <option value="somewhat_useful">Somewhat useful</option>
+                    <option value="neutral">Neutral</option>
+                    <option value="not_very_useful">Not very useful</option>
+                    <option value="not_useful">Not useful at all</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="feedbackComments">Additional comments (optional)</label>
+                <textarea id="feedbackComments" name="comments" placeholder="What could we improve about our predictions or recommendations?"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="feedbackEmail">Email (optional - if you'd like follow-up)</label>
+                <input type="email" id="feedbackEmail" name="email" placeholder="your@email.com">
+            </div>
+            
+            <div class="button-group">
+                <button type="reset">Reset</button>
+                <button type="submit">Submit Feedback</button>
+            </div>
+        </form>
+        
+        <div class="success-message" id="successMessage">
+            <h3>Thank you for your feedback!</h3>
+            <p>Your input helps us improve our churn prediction system.</p>
+        </div>
+    </div>
+
+    <script>
+        // Load prediction data from sessionStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            const predictionData = JSON.parse(sessionStorage.getItem('predictionData'));
+            
+            if (predictionData) {
+                // Display prediction details
+                document.getElementById('detailPrediction').innerHTML = 
+                    `<span class="${predictionData.prediction === 'Yes' ? 'churn-yes' : 'churn-no'}">
+                        ${predictionData.prediction}
+                    </span>`;
+                
+                document.getElementById('detailProbability').textContent = predictionData.probability;
+                
+                const riskFactors = predictionData.risk_factors && predictionData.risk_factors.length > 0 
+                    ? predictionData.risk_factors.join(', ')
+                    : 'No significant risk factors identified';
+                document.getElementById('detailRiskFactors').textContent = riskFactors;
+            } else {
+                document.getElementById('predictionDetails').style.display = 'none';
+            }
+        });
+
+        // Handle form submission
+        document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // In a real app, you would send this to your backend
+            // For now, we'll just show the success message
+            document.getElementById('feedbackForm').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'block';
+            
+            // Here you would typically send the data to your server
+            // const formData = new FormData(this);
+            // fetch('/submit-feedback', {
+            //     method: 'POST',
+            //     body: formData
+            // });
+        });
+    </script>
+</body>
+</html>

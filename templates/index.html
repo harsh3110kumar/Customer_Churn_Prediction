@@ -1,198 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer Churn Prediction</title>
-    <style>
-        /* General Styles */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Customer Churn Project</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
 
-        .container {
-            background-color: #ffffff;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 500px;
-        }
+    body {
+      background-color: #0a0a0a;
+      color: #fff;
+      min-height: 100vh;
+      padding: 2rem;
+    }
 
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 1.5rem;
-            font-weight: 900;
-        }
+    .top-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+      animation: fadeIn 1s ease-in;
+    }
 
-        /* Form Styles */
-        form {
-            display: flex;
-            flex-direction: column;
-        }
+    .top-bar img {
+      width: 40px;
+      height: 40px;
+    }
 
-        label {
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-            color: #555;
-        }
+    .top-bar h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #ffffff;
+    }
 
-        input, select {
-            padding: 0.75rem;
-            margin-bottom: 1rem;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 1rem;
-        }
+    .container {
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      animation: fadeIn 1.5s ease-in;
+    }
 
-        input:focus, select:focus {
-            border-color: #007bff;
-            outline: none;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-        }
-        .button{
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: row;
-        }
-        button {
-            padding: 0.75rem;
-            background-color: #007bff;
-            color: white;
-            width: 40%;
-            border: none;
-            border-radius: 4px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            margin: 3px;
-            transition: transform 300ms ease-in;
-        }
+    .text-content {
+      flex: 1;
+      padding-right: 2rem;
+    }
 
-        button:hover {
-            background-color: #0056b3;
-            transform: scale(1.05);
-        }
+    .text-content h1 {
+      font-size: 3rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      animation: slideUp 1s ease forwards;
+    }
 
-        button[type="reset"] {
-            background-color: #6c757d;
-        }
+    .text-content p {
+      font-size: 1.1rem;
+      color: #ccc;
+      margin-bottom: 2rem;
+      animation: slideUp 1.2s ease forwards;
+    }
 
-        button[type="reset"]:hover {
-            background-color: #5a6268;
-        }
+    .buttons {
+      display: flex;
+      gap: 1rem;
+    }
 
-        /* Result Styles */
-        .result {
-            margin-top: 1.5rem;
-            padding: 1rem;
-            background-color: #e9ecef;
-            border-radius: 4px;
-            text-align: center;
-            font-weight: bold;
-            color: #333;
-        }
-    </style>
+    .buttons button {
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      border: 2px solid #fff;
+      border-radius: 8px;
+      background-color: transparent;
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .buttons button:hover {
+      background-color: #fff;
+      color: #000;
+    }
+
+    .image-content {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: zoomIn 1.5s ease-in-out;
+    }
+
+    .image-content img {
+      width: 100%;
+      max-width: 400px;
+      border-radius: 1rem;
+      max-height: 600px;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideUp {
+      0% {
+        transform: translateY(40px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes zoomIn {
+      0% {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Customer Churn Prediction</h1>
-        <form id="predictionForm">
-            <label for="Age">Age:</label>
-            <input type="number" id="Age" name="Age" required>
+  <!-- Logo + Title -->
+  <div class="top-bar">
+    <img src="https://img.icons8.com/ios-filled/50/ffffff/combo-chart.png" alt="Logo" />
+    <h2>Customer Churn</h2>
+  </div>
 
-            <label for="Gender">Gender:</label>
-            <select id="Gender" name="Gender" required>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-            </select>
-
-            <label for="Tenure">Tenure (months):</label>
-            <input type="number" id="Tenure" name="Tenure" required>
-
-            <label for="UsageFrequency">Usage Frequency:</label>
-            <input type="number" id="UsageFrequency" name="Usage Frequency" required>
-
-            <label for="SupportCalls">Support Calls:</label>
-            <input type="number" id="SupportCalls" name="Support Calls" required>
-
-            <label for="PaymentDelay">Payment Delay (days):</label>
-            <input type="number" id="PaymentDelay" name="Payment Delay" required>
-
-            <label for="SubscriptionType">Subscription Type:</label>
-            <select id="SubscriptionType" name="Subscription Type" required>
-                <option value="Basic">Basic</option>
-                <option value="Premium">Premium</option>
-                <option value="Standard">Standard</option>
-            </select>
-
-            <label for="ContractLength">Contract Length:</label>
-            <select id="ContractLength" name="Contract Length" required>
-                <option value="Monthly">Monthly</option>
-                <option value="Quarterly">Quarterly</option>
-                <option value="Yearly">Yearly</option>
-            </select>
-
-            <label for="TotalSpend">Total Spend ($):</label>
-            <input type="number" id="TotalSpend" name="Total Spend" step="0.01" required>
-
-            <label for="LastInteraction">Last Interaction (days ago):</label>
-            <input type="number" id="LastInteraction" name="Last Interaction" required>
-            <div class="button">
-                <button type="submit">Predict Churn</button>
-                <button type="reset">Reset Form</button>
-            </div>
-            
-        </form>
-
-        <div class="result" id="result"></div>
+  <!-- Main Landing Content -->
+  <div class="container">
+    <div class="text-content">
+      <h1>Powering customer insights and feedback</h1>
+      <p>Predict if a customer will churn or gather valuable feedback to improve your service.</p>
+      <div class="buttons">
+        <button onclick="location.href='predict.html'">Check Churn</button>
+        <button onclick="location.href='feedback.html'">Get Feedback</button>
+      </div>
     </div>
-
-    <script>
-        document.getElementById('predictionForm').addEventListener('submit', async function(event) {
-            event.preventDefault();
-
-            const formData = {
-                Age: parseInt(document.getElementById('Age').value),
-                Gender: document.getElementById('Gender').value,
-                Tenure: parseInt(document.getElementById('Tenure').value),
-                "Usage Frequency": parseInt(document.getElementById('UsageFrequency').value),
-                "Support Calls": parseInt(document.getElementById('SupportCalls').value),
-                "Payment Delay": parseInt(document.getElementById('PaymentDelay').value),
-                "Subscription Type": document.getElementById('SubscriptionType').value,
-                "Contract Length": document.getElementById('ContractLength').value,
-                "Total Spend": parseFloat(document.getElementById('TotalSpend').value),
-                "Last Interaction": parseInt(document.getElementById('LastInteraction').value)
-            };
-
-            try {
-                const response = await fetch('/predict', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(formData)
-                });
-
-                const result = await response.json();
-                if (result.error) {
-                    document.getElementById('result').innerText = `Error: ${result.error}`;
-                } 
-                else {
-                    document.getElementById('result').innerText = `Predicted Churn: ${result.prediction}`;
-                }
-            } catch (error) {
-                document.getElementById('result').innerText = `Error: ${error.message}`;
-            }
-        });
-    </script>
+    <div class="image-content">
+      <img src="../static/ill.png" alt="Customer Churn Illustration" />
+    </div>
+  </div>
 </body>
 </html>
