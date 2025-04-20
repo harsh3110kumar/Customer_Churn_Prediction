@@ -55,3 +55,5 @@ This project predicts whether a customer is likely to **churn** (i.e., leave a s
 ```bash
 git clone https://github.com/PrathamSachan91/Customer_Churn_Prediction.git
 cd customer-churn-prediction
+churn_prediction\Scripts\activate
+python app.py    
